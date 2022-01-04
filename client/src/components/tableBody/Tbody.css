@@ -1,0 +1,178 @@
+*{
+    box-sizing: border-box;
+    margin : 0;
+    padding: 0;
+}
+
+/* .schedule-table{
+    margin : 0 auto 40px auto;
+  }
+  
+  .schedule-table th, td{
+    border-bottom : solid 1px black;
+    padding : 5px 10px;
+    text-align : center;
+  } */
+
+
+
+/*css grid*/
+/* .general-table{
+    border-collapse:collapse;
+    border:1px solid #000;
+} */
+/*css head*/
+/* .thead-unit-box{
+    border:1px solid #000;
+    padding:5px 15px;
+    text-align:left;
+} */
+/*css body*/
+/* .tbody-row{
+    padding:5px 15px;
+    text-align:left;
+    border:1px solid #000;
+} */
+
+/* .tbody-unit-box{
+    padding:5px 15px;
+    text-align:left;
+    border:1px solid #000;
+} */
+/* td,
+th{
+    padding:5px 15px;text-align:left;
+} */
+/* table,th,td{
+    border:1px solid #000;
+}  */
+
+@font-face {
+    font-family: Inter;
+    src: url('../../fonts/Inter-Regular.ttf');
+  }
+
+:root {
+    --green-pale: #E1F3ED;
+    --green: #3ACF6D;
+    --bleu-pale: #E3ECF9;
+    --bleu: #3889FC;
+    --red-pale: #FFF2F2;
+    --red: #FF5E5E;
+    --grey-pale: #F3F5F8;
+    --grey: #29254B;
+    --bleu-upflow: #0B254C;
+    --light-grey: #F3F5F8;
+  }
+  
+.bottom-nav{
+    font-family: Inter, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: var(--light-grey);
+    box-shadow: 0 5px 10px grey;
+}
+
+#global-container{
+    height: 100vh;
+    /* box-shadow: 0 5px 10px grey; */
+    /* display: grid;
+
+    justify-content: center;
+    align-items: center; */
+}
+
+
+.global-grid{
+    font-family: Inter, sans-serif;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    background-color: white;
+    margin-top: 50px;
+}
+
+.general-table{
+    /* text-align: left; */
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+#global-thead{
+    box-shadow: 0 5px 10px lightgrey;
+    background-color: var(--light-grey);
+}
+
+.thead-unit-box{
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 900;   
+}
+
+.tbody-unit-box{
+    padding: 1rem 2rem;
+    /* text-align: right; */
+}
+
+.status{
+    border-radius: 0.7rem;
+    background-color: var(--bleu-pale);
+    padding: 0.2rem 1rem;
+    color: var(--bleu);
+    text-align: center;
+}
+
+.tbody-row:nth-child(even){
+    background-color: #FEAB41;
+    
+}
+
+.arrow{
+    color: white;
+}
+
+
+.arrow-right{
+    transform: rotate(180deg);
+}
+
+.btn-arrow{
+    background-color: var(--bleu-upflow);
+    border: solid 0.5px grey;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btn-sort{
+    /* display: none; */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    
+}
+
+.thead-unit-box-in{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.thead-unit-box-in > span {
+    padding: 5px;
+}
+
+.global-tbody{
+    z-index: -1;
+}

@@ -1,0 +1,25 @@
+@font-face {
+    font-family: Inter;
+    src: url('../../fonts/Inter-Bold.ttf');
+  }
+
+#darth-blue-rectangle{
+    background-color: #1E3659;
+    box-shadow: 0 5px 10px grey;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link{
+    color: white;
+    font-weight: 600;
+    font-family:  Inter, sans-serif;
+    padding: 20px;
+}
+
+#upflow-logo{
+    padding: 20px;
+}
