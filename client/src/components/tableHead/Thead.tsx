@@ -20,14 +20,16 @@ export default function Thead() {
                 <th className='thead-unit-box'> <span>Title</span> <button>Sort a-z</button> </th> 
                 <th className='thead-unit-box'> <span>Outstanding Amount</span> <button>Sort croissant</button></th> 
                 <th className='thead-unit-box'> <span>Currency</span> </th> */}
-                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Number</span> <button className='btn-sort'><img src="./../../img/sort.svg" alt="sort-btn" /></button> </div> </th>    
-                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Customer</span> <button className='btn-sort'><img src="./../../img/sort.svg" alt="sort-btn" /></button></div></th> 
+                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Number</span> <button className='btn-sort'><img src="./img/sort.svg" alt="sort-btn" /></button> </div> </th>    
+                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Customer</span> <button className='btn-sort'><img src="./img/sort.svg" alt="sort-btn" /></button></div></th> 
                 <th className='thead-unit-box'> <span>Status</span> </th>
                 <th className='thead-unit-box'> <span>Issue</span> </th> 
                 <th className='thead-unit-box'> <span>Due</span> </th> 
-                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Title</span> <button className='btn-sort'><img src="./../../img/sort.svg" alt="sort-btn" /></button> </div></th> 
-                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Outstanding Amount</span> <button className='btn-sort'><img src="./../../img/sort.svg" alt="sort-btn" /></button></div></th> 
+                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Title</span> <button className='btn-sort'><img src="./img/sort.svg" alt="sort-btn" /></button> </div></th> 
+                <th className='thead-unit-box'> <div className='thead-unit-box-in'><span>Outstanding Amount</span> <button className='btn-sort'><img src="./img/sort.svg" alt="sort-btn" /></button></div></th> 
                 <th className='thead-unit-box'> <span>Currency</span> </th>
+                <th className='thead-unit-box'> </th>
+                <th className='thead-unit-box'> </th>
             </tr>
         </thead>
     )

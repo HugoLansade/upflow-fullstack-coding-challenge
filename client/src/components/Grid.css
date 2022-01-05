@@ -1,0 +1,9 @@
+#global-container{
+    padding: 32px;
+
+}
+
+.general-table{
+    overflow-y: scroll;
+
+}

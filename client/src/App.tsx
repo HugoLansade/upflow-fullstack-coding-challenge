@@ -4,6 +4,8 @@ import Grid from './components/Grid';
 import Header from './components/header/Header';
 import { Router, Routes, Route } from 'react-router-dom';
 
+import "./reset.css"
+
 function App() {
   return (
     <div className="App">

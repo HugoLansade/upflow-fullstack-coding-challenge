@@ -9,7 +9,8 @@ export type Action =
   | { type: 'SORT'; 
       isDescending?: boolean; 
       sortedType : string; // sort by number or alphabeticaly
-      data: Data[] };
+      data: Data[];
+      keyToSort : string};
 
   export type State = {
 
@@ -80,7 +81,9 @@ const reducer = () =>
         if(action.sortedType === 'Letter'){
             //sortLetter
         } else if (action.sortedType === 'Number') {
-            action.data.sort((a,b) => a.id - b.id);
+            //For now we will sort specific values associated to data we ve been seeding 
+            //Later we should sort only a column and then display the all tbody according to this column so that all data are aline
+            action.data.sort((a,b) => a.number - b.number);
         }  else if (action.sortedType === 'Date') {
             //sortDate
         } else {
@@ -100,9 +103,9 @@ const reducer = () =>
 //     data.sort((a, b) => b.id - a.id);
 // }
 
-// const sortAlphabeticaly = (data : string) => {
+// const sortAlphabeticaly = (data : Data) => {
 //     //SOL 2 POUR LES alphabets
-// function compareStrings(a, b) {
+// function compareStrings(a : string, b : string) {
 //     // Assuming you want case-insensitive comparison
 //     a = a.toLowerCase();
 //     b = b.toLowerCase();
@@ -110,8 +113,8 @@ const reducer = () =>
 //     return (a < b) ? -1 : (a > b) ? 1 : 0;
 //   }
   
-//   data.sort(function(a, b) {
-//     return compareStrings(a.email, b.email);
+//   data.sort(function(a : string, b : string, keyToSort : string) {
+//     return compareStrings(a.keyToSort, b.keyToSort);
 //   })
   
 // }

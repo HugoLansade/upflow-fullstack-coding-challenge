@@ -7,6 +7,7 @@ import cors from 'cors'
 const app = express()
 app.use(cors())
 
+//READ
 app.get('/allInvoice', async (req, res) => {
   // console.log('getting invoice')
   const allInvoice = await prisma.invoice.findMany()
@@ -14,6 +15,29 @@ app.get('/allInvoice', async (req, res) => {
   // console.log(allInvoice.length)
   res.json(allInvoice)
 })
+
+//DELETE
+app.delete('/invoice/:id', async (req, res) => {
+  console.log('delete')
+  const { id } = req.params
+  console.log('----------------'+ id)
+
+  await prisma.invoice.delete({
+    where: {
+      id: Number(id),
+    },
+  })
+})
+
+//EDIT
+// app.put('/publish/:id', async (req, res) => {
+//   const { id } = req.params
+//   const invoiceUpdated = await prisma.invoice.update({
+//     where: { id: Number(id) },
+//     data: { },
+//   })
+//   res.json(invoiceUpdated)
+// })
 
 const server = app.listen(4001, () =>
 console.log(

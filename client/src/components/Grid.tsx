@@ -106,9 +106,7 @@ export default function Grid() {
     return (
         <div id="global-container">
             <div className="global-grid">
-                {/* <h1>Welcome</h1> */}
                 <table className="general-table" > 
-                {/* cellpadding="0" cellspacing="0" */}
                     <Thead/>
                     <Tbody/>      
                 </table>       
