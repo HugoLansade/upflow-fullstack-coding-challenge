@@ -19,7 +19,7 @@ export default function Tbody() {
 
     async function  fetchAllInvoices() { //on recupère les datas que l'on stocke dans memorized mais quand es ce que allData change alors?
         try {
-            const resDb = await axios.get("http://localhost:4001/allInvoice")
+            const resDb = await APIHandler.get("/allInvoice")
             console.log("END resDb --------------")
 
             console.log(resDb.data)
@@ -32,7 +32,11 @@ export default function Tbody() {
 
     const handleDelete = async (id:number) => {
         try {
-          await axios.delete(`http://localhost:4001/invoice/${id}`);
+          const a = await APIHandler.delete(`/invoice/${id}`);
+          console.log("pass")
+          console.log(a)
+
+          fetchAllInvoices();
         } catch (err) {
           console.error(err);
         }

@@ -4,6 +4,9 @@ import axios from 'axios'
 import Thead from "./tableHead/Thead"
 import Tbody from "./tableBody/Tbody"
 import BottomNavBar from "./tableBottomNavBar/BottomNavBar"
+import { stringify } from 'querystring'
+import {Column} from "./../types/Types"
+
 
 interface Invoice {
     number : number
@@ -18,96 +21,69 @@ interface Invoice {
 }
 
 
-// interface ServerResponse {
-//     data: User
-// }
 
-interface User {
-    address : {
-        city : string
-    }
-    email : string
-    username : string
-    phone : string
-    id : number
-}
 
 export default function Grid() {
-    // const [allUsers, setallUsers] = useState<ServerResponse[]>([]);
-    const [allUsers, setallUsers] = useState<User[]>([]);
+    const [allInvoices, setAllInvoices] = useState<any[]>([]);
 
-    // const [userOnScreen, setuserOnScreen] = useState<User[]>([])
-    const [userOnScreen, setuserOnScreen] = useState<User[]>([])
 
-    const limitUserOnScreen = 5;
+    const columns : Column[] = [
+            {
+                key : "number",
+                name: "Number",
+                isSortable: true,
+                sortType: "Number"
+            },
+            {
+                 key : "customer",
+                 name: "Customer",
+                 isSortable: true,
+                 sortType: "Letter"
+            },
+           {
+                key : "status",
+                name: "Status",
+                isSortable: false
+           },
+           {
+                key : "issue",
+                name: "Issue",
+                isSortable: true,
+                sortType: "Date"
+           },
+           {
+                key : "due",
+                name: "Due",
+                isSortable: true,
+                sortType: "Date"
+           },
+           {
+                key : "title",
+                name: "Title",
+                isSortable: true,
+                sortType: "Letter"
+           },
+           {
+                key : "outstandingAmount",
+                name: "Outstanding Amount",
+                isSortable: true,
+                sortType: "Number"
+            },
+            {
+                key : "currency",
+                name: "Currency",
+                isSortable: false
+            },
+    ]
 
-    useEffect(() => {
-        // fetchUsers()
-        // assignUserOnScreen();
-    }, [])
-
-    const fetchUsers = () => {
-       
-            axios.get("https://fakestoreapi.com/users")
-            .then((res) => {
-                setallUsers(res.data)
-                // console.log("resdata")
-                // console.log(res.data)
-                // console.log("allusers")
-                // console.log(allUsers)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
-    const assignUserOnScreen = () => {
-        let tempUser = [];
-        for (let i = 0; i < limitUserOnScreen; i++) {
-            tempUser.push(allUsers[i]);  
-            console.log(allUsers[i])    
-        }
-        setuserOnScreen(tempUser)
-        console.log("userOnScreen")
-
-        console.log(userOnScreen)
-        console.log(userOnScreen[0])
-        console.log(userOnScreen[0].address.city)
-        console.log(userOnScreen[0].username)
-
-    }
-
-    // console.log("alluser end")
-    // console.log(allUsers)
-    // console.log("--------------------------")
-    // allUsers.forEach(el => console.log(el.username))
-    console.log("--------------------------")
+        
     
-/****************************** RESIZE LES COLUMNS************work in progress************/
-    // //Resize box 
-    // let generalTable = document.getElementsByClassName(".general-table")
-    // // let tables = document.getElementsByTagName("table")
-    // resizableGrid(generalTable);
-
-    // function resizableGrid(table:HTMLCollectionOf<Element>) { //HTMLCollectionOf<Element> //HTMLCollection
-    //     // let row = table.getElementsByTagName("tr")[0];
-    //     let row = table.getElementsByClassName(".thead-row");
-    // console.log("-------row-------------------")
-    // console.log(row)
-    // console.log(row.children)
-
-
-    //     let cols = row ? row.children : undefined;
-    //     if (!cols) return;
-    // }
-/****************************** END RESIZE LES COLUMNS************work in progress************/
-
 
     return (
         <div id="global-container">
             <div className="global-grid">
                 <table className="general-table" > 
-                    <Thead/>
+                    <Thead columns={columns}/>
                     <Tbody/>      
                 </table>       
                 <BottomNavBar/>

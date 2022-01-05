@@ -22,11 +22,13 @@ app.delete('/invoice/:id', async (req, res) => {
   const { id } = req.params
   console.log('----------------'+ id)
 
-  await prisma.invoice.delete({
+  const invoiceDeleted = await prisma.invoice.delete({
     where: {
       id: Number(id),
     },
   })
+  res.json(invoiceDeleted)
+
 })
 
 //EDIT
