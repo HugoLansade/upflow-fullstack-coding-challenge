@@ -213,10 +213,9 @@ th{
 }
 
 .btn-arrow-hide{
-    background-color: grey;
-    border: solid 0.5px grey;
+    background-color: rgb(201, 201, 201);
+    border: solid 0.5px rgb(201, 201, 201);
     border-radius: 0.1rem;
-    cursor: pointer;
     width: 25px;
     height: 25px;
     display: flex;

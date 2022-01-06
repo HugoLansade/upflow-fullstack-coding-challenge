@@ -8,25 +8,27 @@ import { GetServerSideProps } from 'next'
 import {BottomNav} from "./../../types/Types"
 
 
+interface Invoice {
+    number : number
+    customer : string
+    status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
+    issue : string
+    due : string
+    title : string
+    outstandingAmount : number
+    currency : "USD" | "GBP" | "UR"
+    id : string
+}
 
+type Props = {
+    data: any[];
+    navigation : any;
+  };
 
-export default function Tbody({navigation}  : any, {data} : any) {
-
-    const [allInvoices, setAllInvoices] = useState<any[]>([]);
-    // const [invoices, setInvoices] = useState<any[]>([]);
-
-    async function  fetchAllInvoices() { //on recupère les datas que l'on stocke dans memorized mais quand es ce que allData change alors?
-        try {
-            const resDb = await APIHandler.get("/allInvoice")
-            console.log("END resDb --------------")
-
-            console.log(resDb.data)
-            setAllInvoices(resDb.data)
-            // return resDb.data;
-        } catch (error) {
-            console.log(error)
-        }        
-    }
+export default function Tbody({
+    data,
+    navigation,
+  }: Props ) {
 
     const handleDelete = async (id:number) => {
         try {
@@ -40,40 +42,20 @@ export default function Tbody({navigation}  : any, {data} : any) {
         }
       };
 
-    // async function delete(id: number): Promise<void> {
-    //     await axios.(`http://localhost:3001/post/${id}`, {
-    //       method: 'DELETE',
-    //     })
-    //     await Router.push('/')
-    //   }
-
-    // const screenLimit = (invoiceOnScreen? : number) => {
-    //     console.log('all invoice :')
-    //     allInvoices.filter( el => 
-    //         el.id < invoiceOnScreen
-    //         )
-    //     console.log(allInvoices)
-    // }
-
-    useEffect( () => {
-        fetchAllInvoices()
-        .then(() => {
-            console.log("now")
-            // screenLimit();
-        }).catch((err) => {
-            console.log(err)
-        });
-        console.log("on mount --------------")
-      }, []);
+      console.log('data is it sliced ?')
+      console.log(data)
+      console.log(navigation)
 
     return (
         <tbody id="global-tbody" className='scroller'>
-            {!allInvoices.length ? (
+            {!data.length ? (
              <tr className='tbody-row row'>
                  <td className='tbody-unit-box'><span>Loading data ..</span>   </td>              
              </tr>
              ) : (
-                allInvoices.slice(navigation.page,navigation.displayedRows).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
+                data.slice(navigation.page,navigation.displayedRows).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
+                // data.slice(0,25).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
+                   
                     return (
                         // <tr className='tbody-row row'>
                         //     <td className='tbody-unit-box' key={index}> <span key={invoice.id}>{invoice.number}</span></td>    

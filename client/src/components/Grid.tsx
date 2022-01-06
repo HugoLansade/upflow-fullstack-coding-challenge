@@ -24,7 +24,7 @@ interface Invoice {
 
 
 export default function Grid() {
-    const [allInvoices, setAllInvoices] = useState<any[]>([]);
+    const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
     const [page, setPage] = useState<number>(1);
     const [isPrevious, setisPrevious] = useState<boolean>(false);
     const [isNext, setisNext] = useState<boolean>(true);
@@ -85,7 +85,7 @@ export default function Grid() {
     const tableNavigation : BottomNav = {
         page: page, //variable
         displayedRows : 25, //variable
-        totalRows: 56, //allInvoices.length ? allInvoices.length : 200
+        totalRows: allInvoices.length, //allInvoices.length ? allInvoices.length : 200
         isNext : isNext,
         isPrevious : isPrevious,
         nextPage: () => nextPage(),
@@ -141,15 +141,13 @@ export default function Grid() {
             },
     ]
 
-    
-    
 
     return (
         <div id="global-container">
             <div className="global-grid">
                 <table className="general-table" > 
                     <Thead columns={columns}/>
-                    <Tbody navigation={tableNavigation} data={allInvoices}/>      
+                    <Tbody navigation={tableNavigation} data={allInvoices}/> 
                 </table>       
                 <BottomNavBar navigation={tableNavigation}/>
 
