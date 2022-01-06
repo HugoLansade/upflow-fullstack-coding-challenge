@@ -212,6 +212,18 @@ th{
     justify-content: space-around;
 }
 
+.btn-arrow-hide{
+    background-color: grey;
+    border: solid 0.5px grey;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .btn-sort{
     /* display: none; */
     background-color: transparent;

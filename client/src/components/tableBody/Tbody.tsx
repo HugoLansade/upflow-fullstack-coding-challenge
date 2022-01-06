@@ -5,17 +5,15 @@ import "./Tbody.css"
 import axios from 'axios';
 import { GetServerSideProps } from 'next'
 
+import {BottomNav} from "./../../types/Types"
 
 
 
-export default function Tbody() {
+
+export default function Tbody({navigation}  : any, {data} : any) {
 
     const [allInvoices, setAllInvoices] = useState<any[]>([]);
-    const [invoices, setInvoices] = useState<any[]>([]);
-    let invoicePerPage = 25;
-    // const memorizedData = useMemo(() => {
-    //     return fetchAllInvoices(); 
-    // } , [allInvoices])
+    // const [invoices, setInvoices] = useState<any[]>([]);
 
     async function  fetchAllInvoices() { //on recupère les datas que l'on stocke dans memorized mais quand es ce que allData change alors?
         try {
@@ -36,7 +34,7 @@ export default function Tbody() {
           console.log("pass")
           console.log(a)
 
-          fetchAllInvoices();
+        //   fetchAllInvoices();
         } catch (err) {
           console.error(err);
         }
@@ -66,8 +64,6 @@ export default function Tbody() {
             console.log(err)
         });
         console.log("on mount --------------")
-        
-        // setAllInvoices(tempInvoice);
       }, []);
 
     return (
@@ -77,7 +73,7 @@ export default function Tbody() {
                  <td className='tbody-unit-box'><span>Loading data ..</span>   </td>              
              </tr>
              ) : (
-                allInvoices.slice(0,invoicePerPage).map((invoice,index) => {
+                allInvoices.slice(navigation.page,navigation.displayedRows).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
                     return (
                         // <tr className='tbody-row row'>
                         //     <td className='tbody-unit-box' key={index}> <span key={invoice.id}>{invoice.number}</span></td>    
