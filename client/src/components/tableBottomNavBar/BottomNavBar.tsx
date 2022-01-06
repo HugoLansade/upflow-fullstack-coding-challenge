@@ -10,7 +10,7 @@ export default function BottomNavBar({navigation}: any) {
                 onClick={() => navigation.previousPage()}>
                     <img src="./../../img/arrow.svg" alt="arrow-left" className='arrow-left arrow'/>
                 </button>
-                <span> <strong>{navigation.page} - {!navigation.isNext ? navigation.totalRows : navigation.page + navigation.displayedRows}</strong> of {navigation.totalRows} invoices</span>
+                <span> <strong>{navigation.page} - {!navigation.isNext ? navigation.totalRows : navigation.page + navigation.displayedRows -1}</strong> of {navigation.totalRows} invoices</span>
                 <button 
                 className={navigation.isNext ? 'btn-arrow': 'btn-arrow-hide'} 
                 onClick={() => navigation.nextPage()}>

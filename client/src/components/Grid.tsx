@@ -146,18 +146,9 @@ export default function Grid() {
             },
     ]
 
-    function currentPage() {
-        setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows +1))
-    }
-    
-
-
       useEffect(() => {
-        console.log("new invoice")
-        console.log(invoiceOnPage)
-        console.log("new invoice after")
-        currentPage()
-        console.log(invoiceOnPage)
+
+        setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows))
       }, [allInvoices, page])
     
     return (
