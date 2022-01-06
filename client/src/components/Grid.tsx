@@ -12,12 +12,12 @@ interface Invoice {
     number : number
     customer : string
     status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
-    issue : string
-    due : string
+    issue : Date
+    due : Date
     title : string
     outstandingAmount : number
     currency : "USD" | "GBP" | "UR"
-    id : string
+    id : number
 }
 
 
@@ -25,6 +25,8 @@ interface Invoice {
 
 export default function Grid() {
     const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
+    const [invoiceOnPage, setinvoiceOnPage] = useState<Invoice[]>([]);
+
     const [page, setPage] = useState<number>(1);
     const [isPrevious, setisPrevious] = useState<boolean>(false);
     const [isNext, setisNext] = useState<boolean>(true);
@@ -35,7 +37,7 @@ export default function Grid() {
             const resDb = await APIHandler.get("/allInvoice")
             console.log("END resDb --------------")
 
-            console.log(resDb.data)
+            // console.log(resDb.data)
             setAllInvoices(resDb.data)
             // return resDb.data;
         } catch (error) {
@@ -51,7 +53,8 @@ export default function Grid() {
         }).catch((err) => {
             console.log(err)
         });
-        console.log("on mount --------------")
+        console.log("on mount --------------")  
+        
       }, []);
 
     function nextPage(){
@@ -82,10 +85,12 @@ export default function Grid() {
         }
     }
 
+   
+
     const tableNavigation : BottomNav = {
         page: page, //variable
         displayedRows : 25, //variable
-        totalRows: allInvoices.length, //allInvoices.length ? allInvoices.length : 200
+        totalRows: allInvoices.length, 
         isNext : isNext,
         isPrevious : isPrevious,
         nextPage: () => nextPage(),
@@ -141,13 +146,26 @@ export default function Grid() {
             },
     ]
 
+    function currentPage() {
+        setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows +1))
+    }
+    
 
+
+      useEffect(() => {
+        console.log("new invoice")
+        console.log(invoiceOnPage)
+        console.log("new invoice after")
+        currentPage()
+        console.log(invoiceOnPage)
+      }, [allInvoices, page])
+    
     return (
         <div id="global-container">
             <div className="global-grid">
                 <table className="general-table" > 
                     <Thead columns={columns}/>
-                    <Tbody navigation={tableNavigation} data={allInvoices}/> 
+                    <Tbody navigation={tableNavigation} data={invoiceOnPage}/> 
                 </table>       
                 <BottomNavBar navigation={tableNavigation}/>
 

@@ -32,19 +32,13 @@ export default function Tbody({
 
     const handleDelete = async (id:number) => {
         try {
-          const a = await APIHandler.delete(`/invoice/${id}`);
-          console.log("pass")
-          console.log(a)
-
+        await APIHandler.delete(`/invoice/${id}`);
         //   fetchAllInvoices();
         } catch (err) {
           console.error(err);
         }
       };
 
-      console.log('data is it sliced ?')
-      console.log(data)
-      console.log(navigation)
 
     return (
         <tbody id="global-tbody" className='scroller'>
@@ -53,7 +47,7 @@ export default function Tbody({
                  <td className='tbody-unit-box'><span>Loading data ..</span>   </td>              
              </tr>
              ) : (
-                data.slice(navigation.page,navigation.displayedRows).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
+                data.map((invoice: any, index :number) => {
                 // data.slice(0,25).map((invoice: { number: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; status: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; issue: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; due: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; outstandingAmount: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; currency: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; id: number; },index: any) => {
                    
                     return (
