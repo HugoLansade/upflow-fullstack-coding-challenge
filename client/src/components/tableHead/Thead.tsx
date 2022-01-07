@@ -1,11 +1,24 @@
 import React from 'react'
 import {Column} from "./../../types/Types"
 
-interface propsHeader {
-    columns : Column[];
-}
 
-export default function Thead({columns} : any) {
+interface Invoice {
+    number : number
+    customer : string
+    status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
+    issue : Date
+    due : Date
+    title : string
+    outstandingAmount : number
+    currency : "USD" | "GBP" | "UR"
+    id : number
+}
+type Props = {
+    columns: Column[];
+    sort : (isDescending : boolean, sortedType : string, key : keyof Invoice ) => void;
+  };
+
+export default function Thead({columns, sort} : Props) {
 
     return (
         <thead id="global-thead" >
@@ -16,7 +29,7 @@ export default function Thead({columns} : any) {
                             <div className='thead-unit-box-in'>
                                 <span>{column.name}</span>
                                 {column.isSortable &&
-                                    <button className='btn-sort'>
+                                    <button className='btn-sort' onClick={() => sort(column.isDescending!, column.sortType!, column.key)}>
                                         <img src="./img/sort.svg" alt="sort-btn" />
                                     </button>                             
                                 }

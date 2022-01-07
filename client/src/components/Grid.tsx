@@ -1,4 +1,4 @@
-import React, { useState, useEffect, HtmlHTMLAttributes } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import axios from 'axios'
 
 import APIHandler from "../api/APIHandler";
@@ -20,7 +20,29 @@ interface Invoice {
     id : number
 }
 
+export interface Data {
+    key? :string
+    id: number;        
+    number: number; 
+    status : string;
+    issue : Date;
+    due : Date;
+    title : string;
+    outstandingAmount : number;
+    currency : string;
+}
 
+// export type Action =
+// { type: 'SORT'; 
+//       isDescending?: boolean; 
+//       sortedType : string; // sort by number or alphabeticaly
+//       idColumn : number};
+
+//   export type State = {
+
+//     dataOnPage : boolean;
+
+//   };
 
 
 export default function Grid() {
@@ -36,14 +58,34 @@ export default function Grid() {
         try {
             const resDb = await APIHandler.get("/allInvoice")
             console.log("END resDb --------------")
+            randomName(true)
+//             let start = new Date(2018, 0, 1); let end= new Date();
+//             const date1 =new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString()
+//   console.log(date1)
 
-            // console.log(resDb.data)
+            console.log(resDb.data)
             setAllInvoices(resDb.data)
             // return resDb.data;
         } catch (error) {
             console.log(error)
         }        
     }
+
+
+    function randomDate(start:Date, end:Date) {
+        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
+      }
+      function randomCustomer(){
+        const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        return alphabet[Math.floor(Math.random() * alphabet.length)];
+      }
+      function randomName(iscustomer: boolean){
+        const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        console.log("random name")
+        console.log(alphabet[Math.floor(Math.random() * alphabet.length)] + iscustomer ? "customer" : "title")
+
+        return alphabet[Math.floor(Math.random() * alphabet.length)] + iscustomer ? "customer" : "title";
+      }
 
     useEffect( () => {
         fetchAllInvoices()
@@ -102,12 +144,14 @@ export default function Grid() {
                 key : "number",
                 name: "Number",
                 isSortable: true,
+                isDescending :true,
                 sortType: "Number"
             },
             {
                  key : "customer",
                  name: "Customer",
                  isSortable: true,
+                 isDescending :true,
                  sortType: "Letter"
             },
            {
@@ -119,24 +163,28 @@ export default function Grid() {
                 key : "issue",
                 name: "Issue",
                 isSortable: true,
+                isDescending :true,
                 sortType: "Date"
            },
            {
                 key : "due",
                 name: "Due",
                 isSortable: true,
+                isDescending :true,
                 sortType: "Date"
            },
            {
                 key : "title",
                 name: "Title",
                 isSortable: true,
+                isDescending :true,
                 sortType: "Letter"
            },
            {
                 key : "outstandingAmount",
                 name: "Outstanding Amount",
                 isSortable: true,
+                isDescending :true,
                 sortType: "Number"
             },
             {
@@ -150,12 +198,148 @@ export default function Grid() {
 
         setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows))
       }, [allInvoices, page])
+
+
+    //   const reducer = () =>
+    //   (state: State, action: Action) : Data[] => {
+    //     switch (action.type) {
+    //       case 'SORT':
+    //         return allInvoices.sort((a,b) => a.number - b.number);
+
+    //         //   // We have 2 sort types : Ascending/descending for numbers or alphabeticaly.
+    //         //   // We should know what is the intention of the user first
+    //         //   if(action.sortedType === 'Letter'){
+    //         //       console.log("Sort letters")
+    //         //   } else if (action.sortedType === 'Number') {
+    //         //       console.log("Sort nulbers")
+      
+    //         //       //For now we will sort specific values associated to data we ve been seeding 
+    //         //       //Later we should sort only a column and then display the all tbody according to this column so that all data are aline
+    //         //      return allInvoices.sort((a,b) => a.number - b.number);
+    //         //   }  else if (action.sortedType === 'Date') {
+    //         //       console.log("Sort dates")
+      
+    //         //   } else {
+    //         //       alert('Typo in sort');
+    //         //   }
+      
+      
+    //           break;
+      
+    //       default :
+    //           alert('Bug in switch reducer');
+      
+    //       }
+    //   }
+    //   const [state, dispatch] = useReducer(reducer, {
+    //     dataOnPage : allInvoices,
+    // })
+    //   const initialState = {
+    //     dataOnPageX: allInvoices,
     
+    // }
+    // (isDescending : boolean, sortedType : string, idColumn :string) => dispatch({type : 'SORT',isDescending : column.isDescending , sortedType : column.sortType, idColumn : column.key })
+    
+    function sort(isDescending : boolean, sortedType : string, key : keyof Invoice ) {
+        if(sortedType === 'Letter'){
+            console.log("Sort letters")
+            if(isDescending) {
+                let result = allInvoices.sort(function (_a, _b) {
+                    const a = getFamilyName(_a[key]);
+                    const b = getFamilyName(_b[key]);
+                    if ( a <= b ) {
+                      return 1;
+                    } else if ( a > b) {
+                      return -1;
+                    }
+                    return 0; // to prevent typescript issues
+                  });
+                  console.log("result", result)
+                  return result;
+            } else {
+                let result = allInvoices.sort(function (_a, _b) {
+                    const a = getFamilyName(_a[key]);
+                    const b = getFamilyName(_b[key]);
+                    if ( a >= b ) {
+                        return 1;
+                    } else if ( a < b) {
+                        return -1;
+                    }
+                    return 0; // to prevent typescript issues
+                  });
+                  console.log("result", result)
+                  return result;
+            }
+            
+        } else if (sortedType === 'Number') {
+            console.log("Sort numbers")
+            setAllInvoices(allInvoices.sort((a,b) => a.number - b.number));  
+        }  else if (sortedType === 'Date') {
+            console.log("Sort dates")
+        } else {
+            alert('Typo in sort');
+        }
+    }
+
+    // const FamilyNameSorter = {
+    //     desc: (data : any[], key : string) => {
+    //         let result = data.sort(function (_a, _b) {
+    //           const a = getFamilyName(_a.key);
+    //           const b = getFamilyName(_b.key);
+    //           if ( a <= b ) {
+    //             return 1;
+    //           } else if ( a > b) {
+    //             return -1;
+    //           }
+    //           return 0; // to prevent typescript issues
+    //         });
+    //         console.log("result", result)
+    //         return result;
+    //       },
+         
+    //     asc: (data : Invoice[], key : keyof Invoice) => {
+    //     return data.sort(function (_a, _b) {
+    //         const a = getFamilyName(_a[key]);
+    //         console.log(typeof(a))
+    //         const b = getFamilyName(_b[key]);
+    //         if ( a >= b ) {
+    //         return 1;
+    //         } else if ( a < b) {
+    //         return -1;
+    //         }
+    //         console.log("result2")
+
+    //         return 0; // to prevent typescript issues
+    //     })
+    //     }
+    //     };
+    //     let data = [
+    //         { id: 3, name: 'Satoshi Yamamoto', class: 'B' },
+    //         { id: 1, name: 'Taro Tanak', class: 'A' },
+    //         { id: 2, name: 'Ken Asada', class: 'A' },
+    //         { id: 4, name: 'Masaru Tokunaga', class: 'C' },
+    //         { id: 2, name: 'Aen Asada', class: 'F' },
+    //         { id: 2, name: 'Ben Asada', class: 'E' },
+    //         { id: 2, name: 'Ken Asada', class: 'D' }
+
+    //       ]
+        //   console.log("FamilyNameSorter.asc(data,)");
+        
+        // console.log(FamilyNameSorter.asc(data,"name"));
+
+    function getFamilyName(name :any) {
+        console.log("Name", name)
+        let result = name.split(' ').slice(0)
+        console.log("Result", result)
+
+        return result
+      }
+
     return (
         <div id="global-container">
             <div className="global-grid">
                 <table className="general-table" > 
-                    <Thead columns={columns}/>
+                    <Thead columns={columns} sort={sort} />
                     <Tbody navigation={tableNavigation} data={invoiceOnPage}/> 
                 </table>       
                 <BottomNavBar navigation={tableNavigation}/>
@@ -164,3 +348,10 @@ export default function Grid() {
         </div>
     )
 }
+    // dispatch : (
+    //     {
+    //         type: 'SORT'; 
+    //         isDescending?: boolean; 
+    //         sortedType : string; // sort by number or alphabeticaly
+    //         idColumn : string
+    //     });

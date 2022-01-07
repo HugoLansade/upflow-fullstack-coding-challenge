@@ -10,9 +10,10 @@ datasource db {
 model Invoice {
   id                Int      @id @default(autoincrement())
   number            Int      @unique
-  status            Status   @default(Unsent)
-  issue             DateTime
-  due               DateTime
+  customer          String
+  status            Status  @default(Unsent)
+  issue             String
+  due               String
   title             String?
   outstandingAmount Int
   currency          Currency @default(EUR)

@@ -11,7 +11,7 @@ app.use(cors())
 app.get('/allInvoice', async (req, res) => {
   // console.log('getting invoice')
   const allInvoice = await prisma.invoice.findMany()
-  console.log('Done -- result :')
+  // console.log('Done -- result :')
   // console.log(allInvoice.length)
   res.json(allInvoice)
 })
@@ -20,8 +20,6 @@ app.get('/allInvoice', async (req, res) => {
 app.delete('/invoice/:id', async (req, res) => {
   console.log('delete')
   const { id } = req.params
-  console.log('----------------'+ id)
-
   const invoiceDeleted = await prisma.invoice.delete({
     where: {
       id: Number(id),
@@ -50,7 +48,7 @@ console.log(
 /******************************************************************************************************* */
 /******************************************************************************************************* */
 // Function for creating random data
-/*
+
 function randomNumber(max:number, min:number) {
   return Math.floor(Math.random() * (max - min) + min);
 }
@@ -68,37 +66,61 @@ function randomCurrency() {
 }
 
 function randomDate(start:Date, end:Date) {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
+}
+
+function randomName(){
+  const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+  return alphabet[Math.floor(Math.random() * alphabet.length)];
 }
 
 
 // (number: Number, status: String, issue : DateTime, due : DateTime, title : String?, outAmount : Number, currency : String ) {
 async function createRandomInvoice() {
+
+
+  for (let index = 0; index < 210; index++) {
   let number = randomNumber(999999,100000);
   let status = randomStatus();
   let issue = randomDate(new Date(2018, 0, 1), new Date())
-  let due = randomDate(issue, new Date())
+  let due = randomDate(new Date(2018, 0, 1), new Date())
   let outstandingAmount = randomNumber(50000,20000)
   let currency = randomCurrency()
+  let title = randomName();
+  let customer = randomName();
 
   await prisma.invoice.create({
     data: {
       number: number,
+      customer : customer,
       // status: status,
       issue: issue,
       due: due,
-      title : 'UpflowExam',
+      title : title,
       outstandingAmount : outstandingAmount,
       // currency: "currency"
     },
   })
+  console.log("OK 1")
 
+}
   // const allInvoice = await prisma.invoice.findMany()
 
   // console.dir(allInvoice, { depth: null })
 
 }
-*/
+
+// CREATION DE DATA
+  // createRandomInvoice()
+  // .catch((e) => {
+  //   throw e
+  // })
+  // .finally(async () => {
+  //   console.log("OK")
+  //   await prisma.$disconnect()
+  // })
+  
+
 /******************************************************************************************************* */
 /******************************************************************************************************* */
 
