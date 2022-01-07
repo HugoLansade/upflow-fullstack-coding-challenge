@@ -58,7 +58,6 @@ export default function Grid() {
         try {
             const resDb = await APIHandler.get("/allInvoice")
             console.log("END resDb --------------")
-            randomName(true)
 //             let start = new Date(2018, 0, 1); let end= new Date();
 //             const date1 =new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString()
 //   console.log(date1)
@@ -70,22 +69,6 @@ export default function Grid() {
             console.log(error)
         }        
     }
-
-
-    function randomDate(start:Date, end:Date) {
-        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
-      }
-      function randomCustomer(){
-        const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-        return alphabet[Math.floor(Math.random() * alphabet.length)];
-      }
-      function randomName(iscustomer: boolean){
-        const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-        console.log("random name")
-        console.log(alphabet[Math.floor(Math.random() * alphabet.length)] + iscustomer ? "customer" : "title")
-
-        return alphabet[Math.floor(Math.random() * alphabet.length)] + iscustomer ? "customer" : "title";
-      }
 
     useEffect( () => {
         fetchAllInvoices()
@@ -328,11 +311,7 @@ export default function Grid() {
         // console.log(FamilyNameSorter.asc(data,"name"));
 
     function getFamilyName(name :any) {
-        console.log("Name", name)
-        let result = name.split(' ').slice(0)
-        console.log("Result", result)
-
-        return result
+        return name.split(' ').slice(0)
       }
 
     return (

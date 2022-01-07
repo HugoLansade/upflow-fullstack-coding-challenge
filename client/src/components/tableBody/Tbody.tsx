@@ -65,7 +65,7 @@ export default function Tbody({
                         // </tr>
                         <tr className='tbody-row row'>
                             <td className='tbody-unit-box' > <span >{invoice.number}</span></td>    
-                            <td className='tbody-unit-box' > <span >Customer1</span></td> 
+                            <td className='tbody-unit-box' > <span >{invoice.customer}</span></td> 
                             <td className='tbody-unit-box' > <span  className='status'>{invoice.status}</span></td>
                             <td className='tbody-unit-box' > <span >{invoice.issue}</span> </td> 
                             <td className='tbody-unit-box' > <span >{invoice.due}</span> </td> 
