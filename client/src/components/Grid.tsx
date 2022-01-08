@@ -47,22 +47,24 @@ export interface Data {
 
 export default function Grid() {
     const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
+
     const [invoiceOnPage, setinvoiceOnPage] = useState<Invoice[]>([]);
 
     const [page, setPage] = useState<number>(1);
     const [isPrevious, setisPrevious] = useState<boolean>(false);
     const [isNext, setisNext] = useState<boolean>(true);
 
+    const [isSorted, setisSorted] = useState<boolean>(false);
+
+
 
     async function  fetchAllInvoices() { //on recupère les datas que l'on stocke dans memorized mais quand es ce que allData change alors?
         try {
+            // const resDb = await APIHandler.get("/allInvoice")
             const resDb = await APIHandler.get("/allInvoice")
-            console.log("END resDb --------------")
-//             let start = new Date(2018, 0, 1); let end= new Date();
-//             const date1 =new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString()
-//   console.log(date1)
+            // console.log("END resDb --------------")
 
-            console.log(resDb.data)
+            // console.log(resDb.data)
             setAllInvoices(resDb.data)
             // return resDb.data;
         } catch (error) {
@@ -180,7 +182,7 @@ export default function Grid() {
       useEffect(() => {
 
         setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows))
-      }, [allInvoices, page])
+      }, [allInvoices,page,isSorted])
 
 
     //   const reducer = () =>
@@ -223,11 +225,12 @@ export default function Grid() {
     // }
     // (isDescending : boolean, sortedType : string, idColumn :string) => dispatch({type : 'SORT',isDescending : column.isDescending , sortedType : column.sortType, idColumn : column.key })
     
-    function sort(isDescending : boolean, sortedType : string, key : keyof Invoice ) {
+    function sort(isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) {
         if(sortedType === 'Letter'){
             console.log("Sort letters")
             if(isDescending) {
                 let result = allInvoices.sort(function (_a, _b) {
+
                     const a = getFamilyName(_a[key]);
                     const b = getFamilyName(_b[key]);
                     if ( a <= b ) {
@@ -237,8 +240,7 @@ export default function Grid() {
                     }
                     return 0; // to prevent typescript issues
                   });
-                  console.log("result", result)
-                  return result;
+                  setAllInvoices(result);
             } else {
                 let result = allInvoices.sort(function (_a, _b) {
                     const a = getFamilyName(_a[key]);
@@ -250,19 +252,50 @@ export default function Grid() {
                     }
                     return 0; // to prevent typescript issues
                   });
-                  console.log("result", result)
-                  return result;
+                  setAllInvoices(result) ;
             }
             
         } else if (sortedType === 'Number') {
             console.log("Sort numbers")
-            setAllInvoices(allInvoices.sort((a,b) => a.number - b.number));  
+            // let sorted =allInvoices.sort((a,b) => a.number - b.number)
+            if(isDescending) {
+                let result = allInvoices.sort((a :any, b:any) =>a[key] - b[key]);
+                      setAllInvoices(result) ;
+            } else {
+                let result = allInvoices.sort((a :any, b:any) =>b[key] - a[key]);
+                      setAllInvoices(result) ;
+            }
         }  else if (sortedType === 'Date') {
             console.log("Sort dates")
+            // let year = 2;
+            // let month = 1;
+            // let day = 0;
+            // let date = allInvoices.
+            //     date.sort((a,b) => a.split("/")[year] - b.split("/")[year])
+            //     .sort((a,b) => {
+            //     if(a.split("/")[year]=== b.split("/")[year]){
+            //         return a.split("/")[month] - b.split("/")[month]
+            //     }
+            //     })
+            //     .sort((a,b) => {
+            //     if(a.split("/")[month]=== b.split("/")[month]){
+            //         return a.split("/")[day] - b.split("/")[day]
+            //     } 
+            //     })
         } else {
             alert('Typo in sort');
         }
+        console.log('change the sort order')
+        console.log(column.isDescending)
+
+        column.isDescending = !column.isDescending;
+        console.log(column.isDescending)
+        setisSorted(true);
     }
+
+    function getFamilyName(name :any) {
+        return name.split(' ').slice(0)
+      }
 
     // const FamilyNameSorter = {
     //     desc: (data : any[], key : string) => {
@@ -310,9 +343,6 @@ export default function Grid() {
         
         // console.log(FamilyNameSorter.asc(data,"name"));
 
-    function getFamilyName(name :any) {
-        return name.split(' ').slice(0)
-      }
 
     return (
         <div id="global-container">

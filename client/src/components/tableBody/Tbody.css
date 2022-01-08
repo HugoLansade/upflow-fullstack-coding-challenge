@@ -223,16 +223,23 @@ th{
     justify-content: space-around;
 }
 
-.btn-sort{
+.btn-sort-desc{
     /* display: none; */
     background-color: transparent;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    
 }
 
+.btn-sort-asc{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transform: rotate(180deg);
+}
 
 .btn-action{
     height: 25px;

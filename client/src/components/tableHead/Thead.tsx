@@ -15,7 +15,7 @@ interface Invoice {
 }
 type Props = {
     columns: Column[];
-    sort : (isDescending : boolean, sortedType : string, key : keyof Invoice ) => void;
+    sort : (isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) => void;
   };
 
 export default function Thead({columns, sort} : Props) {
@@ -25,11 +25,11 @@ export default function Thead({columns, sort} : Props) {
             <tr className='thead-row row'>
                 {columns.map((column :Column, index : number) => {
                     return (
-                        <th className='thead-unit-box'>
+                        <th className='thead-unit-box' key={column.key}>
                             <div className='thead-unit-box-in'>
                                 <span>{column.name}</span>
                                 {column.isSortable &&
-                                    <button className='btn-sort' onClick={() => sort(column.isDescending!, column.sortType!, column.key)}>
+                                    <button className={column.isDescending ? 'btn-sort-desc' : 'btn-sort-asc'} onClick={() => sort(column.isDescending!, column.sortType!, column.key, column)}>
                                         <img src="./img/sort.svg" alt="sort-btn" />
                                     </button>                             
                                 }
