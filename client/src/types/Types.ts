@@ -6,7 +6,7 @@ export type Column = {
     sortType?: "Letter" | "Number" | "Date" | null;
 }
 
-interface Invoice {
+export type Invoice = {
     number : number
     customer : string
     status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
@@ -26,4 +26,26 @@ export type BottomNav = {
     isPrevious : boolean;
     nextPage: () => void;
     previousPage: () => void;
+}
+
+export type headProps = {
+    columns: Column[];
+    sort : (isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) => void;
+  };
+
+export type bodyProps = {
+    data: any[];
+    navigation : any;
+  };
+
+  export type Data = {
+    key? :string
+    id: number;        
+    number: number; 
+    status : string;
+    issue : Date;
+    due : Date;
+    title : string;
+    outstandingAmount : number;
+    currency : string;
 }

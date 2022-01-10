@@ -5,32 +5,8 @@ import APIHandler from "../api/APIHandler";
 import Thead from "./tableHead/Thead"
 import Tbody from "./tableBody/Tbody"
 import BottomNavBar from "./tableBottomNavBar/BottomNavBar"
-import {Column, BottomNav} from "./../types/Types"
+import {Column, BottomNav, Data, Invoice} from "./../types/Types"
 
-
-interface Invoice {
-    number : number
-    customer : string
-    status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
-    issue : Date
-    due : Date
-    title : string
-    outstandingAmount : number
-    currency : "USD" | "GBP" | "UR"
-    id : number
-}
-
-export interface Data {
-    key? :string
-    id: number;        
-    number: number; 
-    status : string;
-    issue : Date;
-    due : Date;
-    title : string;
-    outstandingAmount : number;
-    currency : string;
-}
 
 // export type Action =
 // { type: 'SORT'; 

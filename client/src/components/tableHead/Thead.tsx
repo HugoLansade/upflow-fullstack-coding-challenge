@@ -1,24 +1,7 @@
 import React from 'react'
-import {Column} from "./../../types/Types"
+import {Column, Invoice, headProps} from "./../../types/Types"
 
-
-interface Invoice {
-    number : number
-    customer : string
-    status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
-    issue : Date
-    due : Date
-    title : string
-    outstandingAmount : number
-    currency : "USD" | "GBP" | "UR"
-    id : number
-}
-type Props = {
-    columns: Column[];
-    sort : (isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) => void;
-  };
-
-export default function Thead({columns, sort} : Props) {
+export default function Thead({columns, sort} : headProps) {
 
     return (
         <thead id="global-thead" >

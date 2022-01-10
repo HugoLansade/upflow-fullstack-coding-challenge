@@ -5,30 +5,12 @@ import "./Tbody.css"
 import axios from 'axios';
 import { GetServerSideProps } from 'next'
 
-import {BottomNav} from "./../../types/Types"
-
-
-interface Invoice {
-    number : number
-    customer : string
-    status : "Overdue" | "Paid" | "Unpaid" | "In dispute" | "Unsent" | "Voided" | "Written off"
-    issue : string
-    due : string
-    title : string
-    outstandingAmount : number
-    currency : "USD" | "GBP" | "UR"
-    id : string
-}
-
-type Props = {
-    data: any[];
-    navigation : any;
-  };
+import {BottomNav, Invoice, Column, bodyProps} from "./../../types/Types"
 
 export default function Tbody({
     data,
     navigation,
-  }: Props ) {
+  }: bodyProps ) {
 
     const handleDelete = async (id:number) => {
         try {
