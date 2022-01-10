@@ -12,6 +12,8 @@ export default function Tbody({
     navigation,
   }: bodyProps ) {
 
+    // const [countDelete, setcountDelete] = useState<number>(0)
+
     const handleDelete = async (id:number) => {
         try {
         await APIHandler.delete(`/invoice/${id}`);
@@ -19,6 +21,7 @@ export default function Tbody({
         } catch (err) {
           console.error(err);
         }
+        // setcountDelete(countDelete + 1)
       };
 
 

@@ -7,19 +7,7 @@ import Tbody from "./tableBody/Tbody"
 import BottomNavBar from "./tableBottomNavBar/BottomNavBar"
 import {Column, BottomNav, Data, Invoice} from "./../types/Types"
 
-
-// export type Action =
-// { type: 'SORT'; 
-//       isDescending?: boolean; 
-//       sortedType : string; // sort by number or alphabeticaly
-//       idColumn : number};
-
-//   export type State = {
-
-//     dataOnPage : boolean;
-
-//   };
-
+import { resizeGrid } from '../ResizableGrid/ResizeGrid';
 
 export default function Grid() {
     const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
@@ -32,11 +20,10 @@ export default function Grid() {
 
     const [isSorted, setisSorted] = useState<boolean>(false);
 
-
+    resizeGrid()
 
     async function  fetchAllInvoices() { //on recupère les datas que l'on stocke dans memorized mais quand es ce que allData change alors?
         try {
-            // const resDb = await APIHandler.get("/allInvoice")
             const resDb = await APIHandler.get("/allInvoice")
             // console.log("END resDb --------------")
 
@@ -50,21 +37,12 @@ export default function Grid() {
 
     useEffect( () => {
         fetchAllInvoices()
-        .then(() => {
-            console.log("now")
-            // screenLimit();
-        }).catch((err) => {
-            console.log(err)
-        });
-        console.log("on mount --------------")  
-        
       }, []);
 
     function nextPage(){
         if(tableNavigation.isNext){
             setPage(tableNavigation.page + tableNavigation.displayedRows);
             setisPrevious(true); //now there is a page before
-            console.log("Next page")
             if(Math.ceil(tableNavigation.page / tableNavigation.displayedRows) +1  === Math.ceil(tableNavigation.totalRows / tableNavigation.displayedRows)){
 
                 setisNext(false);
@@ -79,7 +57,6 @@ export default function Grid() {
         if(tableNavigation.isPrevious){
             setPage(tableNavigation.page - tableNavigation.displayedRows);
             setisNext(true); //now there is a page after
-            console.log("Previous page")
             if(Math.floor(tableNavigation.page / tableNavigation.displayedRows) === 1){
                 setisPrevious(false);
             }        
@@ -100,7 +77,7 @@ export default function Grid() {
         previousPage: () => previousPage(),
     }
 
-    const columns : Column[] = [
+    let columns : Column[] = [
             {
                 key : "number",
                 name: "Number",
@@ -156,51 +133,12 @@ export default function Grid() {
     ]
 
       useEffect(() => {
+        console.log("here2")
 
         setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows))
       }, [allInvoices,page,isSorted])
 
 
-    //   const reducer = () =>
-    //   (state: State, action: Action) : Data[] => {
-    //     switch (action.type) {
-    //       case 'SORT':
-    //         return allInvoices.sort((a,b) => a.number - b.number);
-
-    //         //   // We have 2 sort types : Ascending/descending for numbers or alphabeticaly.
-    //         //   // We should know what is the intention of the user first
-    //         //   if(action.sortedType === 'Letter'){
-    //         //       console.log("Sort letters")
-    //         //   } else if (action.sortedType === 'Number') {
-    //         //       console.log("Sort nulbers")
-      
-    //         //       //For now we will sort specific values associated to data we ve been seeding 
-    //         //       //Later we should sort only a column and then display the all tbody according to this column so that all data are aline
-    //         //      return allInvoices.sort((a,b) => a.number - b.number);
-    //         //   }  else if (action.sortedType === 'Date') {
-    //         //       console.log("Sort dates")
-      
-    //         //   } else {
-    //         //       alert('Typo in sort');
-    //         //   }
-      
-      
-    //           break;
-      
-    //       default :
-    //           alert('Bug in switch reducer');
-      
-    //       }
-    //   }
-    //   const [state, dispatch] = useReducer(reducer, {
-    //     dataOnPage : allInvoices,
-    // })
-    //   const initialState = {
-    //     dataOnPageX: allInvoices,
-    
-    // }
-    // (isDescending : boolean, sortedType : string, idColumn :string) => dispatch({type : 'SORT',isDescending : column.isDescending , sortedType : column.sortType, idColumn : column.key })
-    
     function sort(isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) {
         if(sortedType === 'Letter'){
             console.log("Sort letters")
@@ -266,58 +204,18 @@ export default function Grid() {
 
         column.isDescending = !column.isDescending;
         console.log(column.isDescending)
-        setisSorted(true);
+        setisSorted(!isSorted);
     }
 
     function getFamilyName(name :any) {
         return name.split(' ').slice(0)
       }
 
-    // const FamilyNameSorter = {
-    //     desc: (data : any[], key : string) => {
-    //         let result = data.sort(function (_a, _b) {
-    //           const a = getFamilyName(_a.key);
-    //           const b = getFamilyName(_b.key);
-    //           if ( a <= b ) {
-    //             return 1;
-    //           } else if ( a > b) {
-    //             return -1;
-    //           }
-    //           return 0; // to prevent typescript issues
-    //         });
-    //         console.log("result", result)
-    //         return result;
-    //       },
-         
-    //     asc: (data : Invoice[], key : keyof Invoice) => {
-    //     return data.sort(function (_a, _b) {
-    //         const a = getFamilyName(_a[key]);
-    //         console.log(typeof(a))
-    //         const b = getFamilyName(_b[key]);
-    //         if ( a >= b ) {
-    //         return 1;
-    //         } else if ( a < b) {
-    //         return -1;
-    //         }
-    //         console.log("result2")
 
-    //         return 0; // to prevent typescript issues
-    //     })
-    //     }
-    //     };
-    //     let data = [
-    //         { id: 3, name: 'Satoshi Yamamoto', class: 'B' },
-    //         { id: 1, name: 'Taro Tanak', class: 'A' },
-    //         { id: 2, name: 'Ken Asada', class: 'A' },
-    //         { id: 4, name: 'Masaru Tokunaga', class: 'C' },
-    //         { id: 2, name: 'Aen Asada', class: 'F' },
-    //         { id: 2, name: 'Ben Asada', class: 'E' },
-    //         { id: 2, name: 'Ken Asada', class: 'D' }
 
-    //       ]
-        //   console.log("FamilyNameSorter.asc(data,)");
-        
-        // console.log(FamilyNameSorter.asc(data,"name"));
+      /****************RESIZABLE TABLE GRID***************** */
+
+
 
 
     return (
@@ -333,10 +231,3 @@ export default function Grid() {
         </div>
     )
 }
-    // dispatch : (
-    //     {
-    //         type: 'SORT'; 
-    //         isDescending?: boolean; 
-    //         sortedType : string; // sort by number or alphabeticaly
-    //         idColumn : string
-    //     });
