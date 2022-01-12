@@ -28,7 +28,6 @@ function createDiv(height : any){
     div.style.position = 'absolute';
     div.style.cursor = 'col-resize';
     div.style.userSelect = 'none';
-    /* table height */
     div.style.height = height+'px';
     return div;
    }

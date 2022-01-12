@@ -23,11 +23,13 @@ export default function Tbody({
         }
         // setcountDelete(countDelete + 1)
       };
+     
 
+     
 
     return (
         <tbody id="global-tbody" className='scroller'>
-            {!data.length ? (
+            {!data.length ? (              
              <tr className='tbody-row row'>
                  <td className='tbody-unit-box'><span>Loading data ..</span>   </td>              
              </tr>

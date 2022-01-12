@@ -9,9 +9,63 @@ import {Column, BottomNav, Data, Invoice} from "./../types/Types"
 
 import { resizeGrid } from '../ResizableGrid/ResizeGrid';
 
+let columns : Column[] = [
+    {
+        key : "number",
+        name: "Number",
+        isSortable: true,
+        isDescending :true,
+        sortType: "Number"
+    },
+    {
+         key : "customer",
+         name: "Customer",
+         isSortable: true,
+         isDescending :true,
+         sortType: "Letter"
+    },
+   {
+        key : "status",
+        name: "Status",
+        isSortable: false
+   },
+   {
+        key : "issue",
+        name: "Issue",
+        isSortable: true,
+        isDescending :true,
+        sortType: "Date"
+   },
+   {
+        key : "due",
+        name: "Due",
+        isSortable: true,
+        isDescending :true,
+        sortType: "Date"
+   },
+   {
+        key : "title",
+        name: "Title",
+        isSortable: true,
+        isDescending :true,
+        sortType: "Letter"
+   },
+   {
+        key : "outstandingAmount",
+        name: "Outstanding Amount",
+        isSortable: true,
+        isDescending :true,
+        sortType: "Number"
+    },
+    {
+        key : "currency",
+        name: "Currency",
+        isSortable: false
+    },
+]
+
 export default function Grid() {
     const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
-
     const [invoiceOnPage, setinvoiceOnPage] = useState<Invoice[]>([]);
 
     const [page, setPage] = useState<number>(1);
@@ -19,6 +73,7 @@ export default function Grid() {
     const [isNext, setisNext] = useState<boolean>(true);
 
     const [isSorted, setisSorted] = useState<boolean>(false);
+
 
     resizeGrid()
 
@@ -77,71 +132,15 @@ export default function Grid() {
         previousPage: () => previousPage(),
     }
 
-    let columns : Column[] = [
-            {
-                key : "number",
-                name: "Number",
-                isSortable: true,
-                isDescending :true,
-                sortType: "Number"
-            },
-            {
-                 key : "customer",
-                 name: "Customer",
-                 isSortable: true,
-                 isDescending :true,
-                 sortType: "Letter"
-            },
-           {
-                key : "status",
-                name: "Status",
-                isSortable: false
-           },
-           {
-                key : "issue",
-                name: "Issue",
-                isSortable: true,
-                isDescending :true,
-                sortType: "Date"
-           },
-           {
-                key : "due",
-                name: "Due",
-                isSortable: true,
-                isDescending :true,
-                sortType: "Date"
-           },
-           {
-                key : "title",
-                name: "Title",
-                isSortable: true,
-                isDescending :true,
-                sortType: "Letter"
-           },
-           {
-                key : "outstandingAmount",
-                name: "Outstanding Amount",
-                isSortable: true,
-                isDescending :true,
-                sortType: "Number"
-            },
-            {
-                key : "currency",
-                name: "Currency",
-                isSortable: false
-            },
-    ]
+    
 
       useEffect(() => {
-        console.log("here2")
-
         setinvoiceOnPage(allInvoices.slice(page -1, page + tableNavigation.displayedRows))
       }, [allInvoices,page,isSorted])
 
 
     function sort(isDescending : boolean, sortedType : string, key : keyof Invoice, column : Column ) {
         if(sortedType === 'Letter'){
-            console.log("Sort letters")
             if(isDescending) {
                 let result = allInvoices.sort(function (_a, _b) {
 
@@ -170,8 +169,6 @@ export default function Grid() {
             }
             
         } else if (sortedType === 'Number') {
-            console.log("Sort numbers")
-            // let sorted =allInvoices.sort((a,b) => a.number - b.number)
             if(isDescending) {
                 let result = allInvoices.sort((a :any, b:any) =>a[key] - b[key]);
                       setAllInvoices(result) ;
@@ -180,7 +177,6 @@ export default function Grid() {
                       setAllInvoices(result) ;
             }
         }  else if (sortedType === 'Date') {
-            console.log("Sort dates")
             // let year = 2;
             // let month = 1;
             // let day = 0;
@@ -199,11 +195,8 @@ export default function Grid() {
         } else {
             alert('Typo in sort');
         }
-        console.log('change the sort order')
-        console.log(column.isDescending)
-
+        resetHeadersSort(column.key);
         column.isDescending = !column.isDescending;
-        console.log(column.isDescending)
         setisSorted(!isSorted);
     }
 
@@ -211,7 +204,14 @@ export default function Grid() {
         return name.split(' ').slice(0)
       }
 
-
+      function resetHeadersSort(key: string) {
+          columns.map(el => 
+            {
+                if(el.isSortable && el.key !== key) 
+                return el.isDescending = true;
+            }
+            )
+      }
 
       /****************RESIZABLE TABLE GRID***************** */
 

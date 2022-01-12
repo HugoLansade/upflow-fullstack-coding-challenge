@@ -1,3 +1,7 @@
+
+
+/***********************************************************************************************************************************/
+
 *{
     box-sizing: border-box;
     margin : 0;
@@ -104,13 +108,14 @@ th{
     text-transform: uppercase;
     font-size: 0.7rem;
     font-weight: 900;   
-    border-right : solid 1px var(--orange);
+    border-right : solid 4px var(--orange);
+    border-style: double;
 }
 
 .thead-unit-box-in{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    /* align-items: center;
+    justify-content: space-around; */
 
 }
 
@@ -134,7 +139,7 @@ th{
 
 .tbody-unit-box{
     padding: 1rem 10px;
-    /* text-align: right; */
+    text-align: left;
 }
 
 .tbody-row{
@@ -247,4 +252,3 @@ th{
     height: 25px;
     cursor: pointer;
 }
-
